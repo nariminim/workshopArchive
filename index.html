@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Workshop 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            padding: 40px 40px 30px 40px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .header-title {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .header-description {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            white-space: pre-line;
+        }
+
+        .header-description .small-text {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .footer {
+            padding: 30px 40px;
+            margin-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px 20px 20px;
+            }
+
+            .header-title {
+                font-size: 36px;
+            }
+
+            .header-description {
+                font-size: 18px;
+            }
+        }
+
+        .episode {
+            background: white;
+            padding: 20px 40px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 80px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .episode-content {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        .preview-tag {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .episode-title {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: #000;
+        }
+
+        .episode-description {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .episode-description strong {
+            font-weight: 700;
+        }
+
+        .episode-description.truncated {
+            display: -webkit-box;
+            -webkit-line-clamp: unset;
+            line-clamp: unset;
+            -webkit-box-orient: vertical;
+        }
+
+        .read-more-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        .read-more-link:hover {
+            opacity: 0.7;
+        }
+
+        .read-more-link span {
+            font-size: 20px;
+            display: inline-block;
+        }
+
+
+        .episode-image {
+            flex-shrink: 0;
+            width: 400px;
+            aspect-ratio: 16 / 9;
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .episode-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .episode-image iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .episode-image-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+        }
+
+        .image-text {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-align: center;
+            line-height: 1.8;
+            font-weight: 300;
+            z-index: 2;
+        }
+
+        .image-decoration {
+            position: absolute;
+            width: 120px;
+            height: 1px;
+            background: white;
+        }
+
+        .image-decoration.top {
+            top: 30px;
+        }
+
+        .image-decoration.bottom {
+            bottom: 30px;
+        }
+
+        .image-bg {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60%;
+            height: 50%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><path d="M0,50 Q50,30 100,50 T200,50 L200,100 L0,100 Z" fill="rgba(255,255,255,0.03)"/></svg>') no-repeat;
+            background-size: cover;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1024px) {
+            .episode {
+                flex-direction: column;
+                padding: 40px;
+                gap: 40px;
+            }
+
+            .episode-image {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .episode-title {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .episode {
+                padding: 30px 20px;
+            }
+
+            .episode-title {
+                font-size: 28px;
+            }
+
+            .episode-description {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title" id="header-title">Loading...</h1>
+            <p class="header-description" id="header-description">Loading...</p>
+        </header>
+                                                                                                                        <div class="episode">
+            <div class="episode-content">
+                <h2 class="episode-title">다이얼 전화기를 활용한 오디오 가이드 (서울생활사박물관)</h2>
+                <p class="episode-description" data-full-text="1960~80년대 서울 가정의 상징이던 구형 로터리 전화기를 매개로, 관람객이 직접 손끝으로 다이얼을 돌리면 과거 서울의 모습과 효과음이 해설과 함께 들리며 생생한 시간 여행을 경험한다." data-designer="김민, 진영원"></p>
+                <button class="read-more-link" onclick="toggleDescription(this)" style="display: none;">Read more<span>↓</span></button>
+            </div>
+            <div class="episode-image">
+                <iframe 
+                    src="https://www.youtube.com/embed/QIS_oqjc-JA" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        <div class="episode">
+            <div class="episode-content">
+                <h2 class="episode-title">국립중앙박물관</h2>
+                <p class="episode-description" data-full-text="더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다. 더미 텍스트 입니다." data-designer="이나림"></p>
+                <button class="read-more-link" onclick="toggleDescription(this)" style="display: none;">Read more<span>↓</span></button>
+            </div>
+            <div class="episode-image">
+                <img src="asset/더미폴더1/thumbnail.jpg" alt="국립중앙박물관" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+            </div>
+        </div>
+        <div class="episode">
+            <div class="episode-content">
+                <h2 class="episode-title">직접 실험하는 빛의 팔레트 Light Palette</h2>
+                <p class="episode-description" data-full-text="국립어린이과학관의 기존 빛 전시 체험을 분석하고, 어린이들이 직접 색의 혼합 원리를 실험적으로 체험할 수 있도록 전시를 개선하는 프로젝트입니다. 팔레트와 3원색 공, 붓을 활용한 인터랙션을 통해, 어린이들이 색을 직접 조합하고 결과를 관찰하며 과학 원리를 쉽게 이해하도록 설계하였습니다." data-designer="김민재, 빅기정"></p>
+                <button class="read-more-link" onclick="toggleDescription(this)" style="display: none;">Read more<span>↓</span></button>
+            </div>
+            <div class="episode-image">
+                <iframe 
+                    src="https://www.youtube.com/embed/nzg2yUk1XRM" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        © 2025 Narim Lee<br>
+        Built with Claude Sonnet 4.5 and Cursor
+    </footer>
+
+    <script>
+        function toggleDescription(button) {
+            // button의 부모 요소에서 description 찾기
+            const episodeContent = button.closest('.episode-content');
+            const description = episodeContent.querySelector('.episode-description');
+            const fullText = description.getAttribute('data-full-text');
+            const designer = description.getAttribute('data-designer');
+            const isExpanded = description.classList.contains('expanded');
+            
+            if (isExpanded) {
+                // 접기: 140자까지만 표시 (디자이너 정보 제외)
+                truncateText(description, fullText, 140);
+                description.classList.remove('expanded');
+                button.innerHTML = 'Read more<span>↓</span>';
+            } else {
+                // 펼치기: 전체 텍스트 + 디자이너 정보 표시
+                let displayHTML = fullText.replace(/\n/g, '<br>');
+                if (designer) {
+                    const designers = designer.split(',').map(d => d.trim());
+                    const designerLabel = designers.length > 1 ? '<strong>Designers </strong>' : '<strong>Designer </strong>';
+                    displayHTML = displayHTML + '<br><br>' + designerLabel + designer;
+                }
+                description.innerHTML = displayHTML;
+                description.classList.add('expanded');
+                button.innerHTML = 'Read less<span>↑</span>';
+            }
+        }
+
+        function truncateText(element, fullText, maxLength) {
+            if (fullText.length <= maxLength) {
+                element.innerHTML = fullText.replace(/\n/g, '<br>');
+            } else {
+                const truncated = fullText.substring(0, maxLength) + '...';
+                element.innerHTML = truncated.replace(/\n/g, '<br>');
+            }
+        }
+
+        // 에피소드 순서를 랜덤으로 섞기
+        function shuffleEpisodes() {
+            const container = document.querySelector('.container');
+            const episodes = Array.from(container.querySelectorAll('.episode'));
+            
+            // Fisher-Yates 셔플 알고리즘
+            for (let i = episodes.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [episodes[i], episodes[j]] = [episodes[j], episodes[i]];
+            }
+            
+            // DOM에서 제거 후 새 순서로 다시 추가
+            episodes.forEach(episode => {
+                container.removeChild(episode);
+            });
+            
+            episodes.forEach(episode => {
+                container.appendChild(episode);
+            });
+        }
+
+        // 헤더 내용을 header.txt에서 로드
+        async function loadHeader() {
+            try {
+                const response = await fetch('header.txt');
+                const text = await response.text();
+                const lines = text.split('\n').map(line => line.trim());
+                
+                let title = '';
+                let mainDescription = '';
+                let smallDescription = '';
+                let isSmallDescription = false;
+                
+                lines.forEach(line => {
+                    if (line.startsWith('제목:')) {
+                        title = line.substring(3).trim();
+                    } else if (line.startsWith('설명:')) {
+                        mainDescription = line.substring(3).trim();
+                    } else if (line.trim() === '') {
+                        // 빈 줄이 나오면 그 다음 줄부터는 작은 텍스트로
+                        isSmallDescription = true;
+                    } else if (line && !line.startsWith('제목:') && !line.startsWith('설명:')) {
+                        if (isSmallDescription || smallDescription) {
+                            if (smallDescription) {
+                                smallDescription += ' ' + line;
+                            } else {
+                                smallDescription = line;
+                            }
+                        } else {
+                            if (mainDescription) {
+                                mainDescription += ' ' + line;
+                            } else if (!title) {
+                                // 제목이 없으면 첫 줄을 제목으로
+                                title = line;
+                            } else {
+                                mainDescription = line;
+                            }
+                        }
+                    }
+                });
+                
+                const titleElement = document.getElementById('header-title');
+                const descElement = document.getElementById('header-description');
+                
+                if (titleElement && title) {
+                    titleElement.textContent = title;
+                }
+                if (descElement) {
+                    if (mainDescription && smallDescription) {
+                        // 줄바꿈을 유지하기 위해 textContent 사용 (white-space: pre-line이 처리)
+                        descElement.textContent = mainDescription + '\n\n' + smallDescription;
+                        // small-text를 위해 HTML 구조 재구성
+                        const parts = descElement.textContent.split('\n\n');
+                        if (parts.length >= 2) {
+                            descElement.innerHTML = parts[0] + '\n\n<span class="small-text">' + parts.slice(1).join('\n\n') + '</span>';
+                        }
+                    } else if (mainDescription) {
+                        descElement.textContent = mainDescription;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading header:', error);
+                // 기본값 설정
+                const titleElement = document.getElementById('header-title');
+                const descElement = document.getElementById('header-description');
+                if (titleElement) titleElement.textContent = 'Reactive books 2.0 : Artist Edition';
+                if (descElement) descElement.textContent = '"Reactive Books 2.0" is an experimental design project where students reinterpret works of artists and designers into responsive graphic experiences using touch-based interaction and physics engines.';
+            }
+        }
+
+        // 페이지 로드 시 각 설명을 140자로 제한하고 Read more 버튼 표시 여부 결정
+        document.addEventListener('DOMContentLoaded', function() {
+            // 헤더 로드
+            loadHeader();
+            
+            // 에피소드 순서 랜덤 섞기
+            shuffleEpisodes();
+            
+            const descriptions = document.querySelectorAll('.episode-description');
+            descriptions.forEach(description => {
+                const episodeContent = description.closest('.episode-content');
+                const button = episodeContent.querySelector('.read-more-link');
+                const fullText = description.getAttribute('data-full-text') || description.textContent.trim();
+                const designer = description.getAttribute('data-designer');
+                
+                // fullText가 없으면 현재 텍스트를 fullText로 설정
+                if (!description.getAttribute('data-full-text')) {
+                    description.setAttribute('data-full-text', fullText);
+                }
+                
+                // 설명이 140자를 초과하거나 디자이너 정보가 있으면 Read more 버튼 표시
+                const shouldShowButton = button && (fullText.length > 140 || designer);
+                
+                if (shouldShowButton) {
+                    // 140자로 제한 (디자이너 정보는 제외)
+                    truncateText(description, fullText, 140);
+                    description.classList.add('truncated');
+                    button.style.display = 'inline-flex';
+                } else {
+                    description.innerHTML = fullText.replace(/\n/g, '<br>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
