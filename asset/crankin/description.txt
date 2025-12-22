@@ -1,0 +1,5 @@
+제목: CRANK-IN
+설명: 크랭크 필름 카메라/Flim Simulation Camera
+20세기의 상징적인 시네마카메라 Debrie Parvo의 기계적 언어를 재해석한 인터랙티브 오브제를 통해, 관객은 직접 크랭크를 감으며 정지된 사진이 영화가 되는 순간을 체험한다.
+디자이너: 강동준
+링크: https://www.youtube.com/watch?v=9dj1bNtsDqs
