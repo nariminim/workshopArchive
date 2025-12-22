@@ -17,11 +17,23 @@ function readDescriptionFiles() {
         const folderPath = path.join(assetDir, folder);
         if (fs.statSync(folderPath).isDirectory()) {
             const descPath = path.join(folderPath, 'description.txt');
-            const thumbPath = path.join(folderPath, 'thumbnail.jpg');
             
             if (fs.existsSync(descPath)) {
                 const content = fs.readFileSync(descPath, 'utf-8');
-                const lines = content.split('\n').map(line => line.trim()).filter(line => line);
+                const lines = content.split('\n');
+                
+                // 폴더 내의 모든 이미지 파일 찾기
+                const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+                const files = fs.readdirSync(folderPath);
+                let imageFile = null;
+                
+                for (const file of files) {
+                    const ext = path.extname(file).toLowerCase();
+                    if (imageExtensions.includes(ext)) {
+                        imageFile = file;
+                        break; // 첫 번째 이미지 파일 사용
+                    }
+                }
                 
                 const episode = {
                     folder: folder,
@@ -29,29 +41,38 @@ function readDescriptionFiles() {
                     description: '',
                     designer: '',
                     link: '',
-                    hasThumbnail: fs.existsSync(thumbPath)
+                    imageFile: imageFile
                 };
                 
                 let currentSection = '';
                 lines.forEach((line, index) => {
-                    if (line.startsWith('제목:')) {
-                        episode.title = line.substring(3).trim();
+                    const trimmedLine = line.trim();
+                    if (trimmedLine.startsWith('제목:')) {
+                        episode.title = trimmedLine.substring(3).trim();
                         currentSection = '';
-                    } else if (line.startsWith('설명:')) {
-                        episode.description = line.substring(3).trim();
+                    } else if (trimmedLine.startsWith('설명:')) {
+                        episode.description = trimmedLine.substring(3).trim();
                         currentSection = 'description';
-                    } else if (line.startsWith('디자이너:')) {
-                        episode.designer = line.substring(5).trim();
+                    } else if (trimmedLine.startsWith('디자이너:')) {
+                        episode.designer = trimmedLine.substring(5).trim();
                         currentSection = '';
-                    } else if (line.startsWith('링크:')) {
-                        episode.link = line.substring(3).trim();
+                    } else if (trimmedLine.startsWith('링크:')) {
+                        episode.link = trimmedLine.substring(3).trim();
                         currentSection = '';
-                    } else if (line.trim() && currentSection === 'description') {
-                        // 설명 섹션에 속한 빈 줄이 아닌 경우 줄바꿈 유지하여 추가
-                        if (episode.description) {
-                            episode.description += '\n' + line;
+                    } else if (currentSection === 'description') {
+                        // 설명 섹션에 있을 때: 빈 줄이면 줄바꿈 추가, 내용이 있으면 줄바꿈과 함께 추가
+                        if (trimmedLine === '') {
+                            // 빈 줄은 줄바꿈으로 유지
+                            if (episode.description) {
+                                episode.description += '\n';
+                            }
                         } else {
-                            episode.description = line;
+                            // 내용이 있는 줄
+                            if (episode.description) {
+                                episode.description += '\n' + trimmedLine;
+                            } else {
+                                episode.description = trimmedLine;
+                            }
                         }
                     }
                 });
@@ -85,16 +106,27 @@ function convertToEmbedUrl(url) {
 // HTML 에피소드 섹션 생성
 function generateEpisodeHTML(episode, index) {
     const fullText = episode.description;
-    const hasThumbnail = episode.hasThumbnail;
-    const imageSrc = hasThumbnail 
-        ? `asset/${episode.folder}/thumbnail.jpg`
+    const imageSrc = episode.imageFile 
+        ? `asset/${episode.folder}/${episode.imageFile}`
         : '';
     const videoUrl = episode.link ? convertToEmbedUrl(episode.link) : '';
     
     // 이미지/영상 부분
     let imageHTML = '';
-    if (hasThumbnail) {
-        imageHTML = `<img src="${imageSrc}" alt="${episode.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">`;
+    if (imageSrc) {
+        // 이미지가 있고 링크가 있으면 클릭 가능한 링크로 만들기
+        const imgTag = `<img src="${imageSrc}" alt="${episode.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px; cursor: pointer;">`;
+        if (episode.link) {
+            // 화살표 버튼 추가
+            const arrowButton = `<div class="image-link-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>`;
+            imageHTML = `<a href="${episode.link}" target="_blank" rel="noopener noreferrer" class="episode-image-link">${imgTag}${arrowButton}</a>`;
+        } else {
+            imageHTML = imgTag;
+        }
     } else if (videoUrl) {
         imageHTML = `<iframe 
                     src="${videoUrl}" 
@@ -103,18 +135,8 @@ function generateEpisodeHTML(episode, index) {
                     allowfullscreen>
                 </iframe>`;
     } else {
-        imageHTML = `<div class="episode-image-content">
-                    <div class="image-decoration top"></div>
-                    <div class="image-text">
-                        ✶<br>
-                        O F<br>
-                        H U M A N<br>
-                        <br>
-                        L I V E S
-                    </div>
-                    <div class="image-decoration bottom"></div>
-                    <div class="image-bg"></div>
-                </div>`;
+        // 이미지가 없을 때 블랙 배경
+        imageHTML = `<div style="width: 100%; height: 100%; background: #000;"></div>`;
     }
     
     // 디자이너 정보 포함된 전체 텍스트 (펼쳤을 때만 표시)
@@ -128,10 +150,14 @@ function generateEpisodeHTML(episode, index) {
         ? `<button class="read-more-link" onclick="toggleDescription(this)" style="display: none;">Read more<span>↓</span></button>`
         : '';
     
+    // HTML 속성에 저장할 때 JSON.stringify를 사용하여 줄바꿈과 따옴표를 안전하게 처리
+    const escapedFullText = JSON.stringify(fullText);
+    const escapedDesigner = episode.designer ? JSON.stringify(episode.designer) : '""';
+    
     return `        <div class="episode">
             <div class="episode-content">
                 <h2 class="episode-title">${episode.title}</h2>
-                <p class="episode-description" data-full-text="${fullText.replace(/"/g, '&quot;').replace(/\n/g, '\\n')}" data-designer="${episode.designer ? episode.designer.replace(/"/g, '&quot;') : ''}"></p>
+                <p class="episode-description" data-full-text=${escapedFullText} data-designer=${escapedDesigner}></p>
                 ${readMoreButton}
             </div>
             <div class="episode-image">
