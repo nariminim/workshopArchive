@@ -103,11 +103,16 @@ function convertToEmbedUrl(url) {
     return url;
 }
 
+// URL 인코딩 헬퍼 함수
+function encodePath(path) {
+    return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+}
+
 // HTML 에피소드 섹션 생성
 function generateEpisodeHTML(episode, index) {
     const fullText = episode.description;
     const imageSrc = episode.imageFile 
-        ? `asset/${episode.folder}/${episode.imageFile}`
+        ? encodePath(`asset/${episode.folder}/${episode.imageFile}`)
         : '';
     const videoUrl = episode.link ? convertToEmbedUrl(episode.link) : '';
     
