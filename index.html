@@ -50,70 +50,12 @@
         }
 
         .footer {
-            padding: 60px 40px;
-            margin-top: 40px;
+            padding: 30px 40px;
+            margin-top: 20px;
             border-top: 1px solid #e0e0e0;
-            background: #f5f5f5;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer-column-header {
+            text-align: center;
             font-size: 14px;
             color: #666;
-            margin-bottom: 16px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .footer-column-content {
-            font-size: 14px;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        .footer-column-content.single-line {
-            white-space: nowrap;
-            margin-top: 18px;
-        }
-
-        .footer-column-content a {
-            color: #333;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .footer-column-content a:hover {
-            opacity: 0.7;
-        }
-
-        @media (max-width: 1024px) {
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 40px 60px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .footer {
-                padding: 40px 20px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -223,46 +165,6 @@
             height: 100%;
             object-fit: cover;
             border-radius: 4px;
-            transition: opacity 0.2s;
-        }
-
-        .episode-image-link {
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .episode-image-link:hover img {
-            opacity: 0.8;
-        }
-
-        .image-link-arrow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 48px;
-            height: 48px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-            pointer-events: none;
-        }
-
-        .episode-image-link:hover .image-link-arrow {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .image-link-arrow svg {
-            width: 24px;
-            height: 24px;
         }
 
         .episode-image iframe {
@@ -270,6 +172,53 @@
             height: 100%;
             border: none;
             border-radius: 4px;
+        }
+
+        .episode-image-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+        }
+
+        .image-text {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-align: center;
+            line-height: 1.8;
+            font-weight: 300;
+            z-index: 2;
+        }
+
+        .image-decoration {
+            position: absolute;
+            width: 120px;
+            height: 1px;
+            background: white;
+        }
+
+        .image-decoration.top {
+            top: 30px;
+        }
+
+        .image-decoration.bottom {
+            bottom: 30px;
+        }
+
+        .image-bg {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60%;
+            height: 50%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><path d="M0,50 Q50,30 100,50 T200,50 L200,100 L0,100 Z" fill="rgba(255,255,255,0.03)"/></svg>') no-repeat;
+            background-size: cover;
+            opacity: 0.5;
         }
 
         @media (max-width: 1024px) {
@@ -310,7 +259,7 @@
             <h1 class="header-title" id="header-title">Loading...</h1>
             <p class="header-description" id="header-description">Loading...</p>
         </header>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="episode">
+                                                                                                                                                                        <div class="episode">
             <div class="episode-content">
                 <h2 class="episode-title">장단 A to Z</h2>
                 <p class="episode-description" data-full-text="장단을 쌓다 - 조립하고 변형하는 우리소리\n이 프로젝트는 한국 전통 음악의 핵심 개념인 장단을 ‘듣는 대상’에서 ‘손으로 조작하고 조립하는 구조’로 재해석한 탠저블 인터랙션 작품이다. 장단은 기본적으로<n소박 n박>구조를 가진다. 이러한 큰 구조 안에서 각 장단은 다양하게 변화할 수 있다. 큰 박 구조-기본형-변형형, 이 세 층위를 블록 3개로 명확히 분리하여 장단을 층위적으로 이해하게 한다. 마지막으로는 슬라이더를 위로 밀어올림으로써, 완성된 장단이 실제 민요로 구현되는 과정까지 확대한다. 즉, 실제 블록을 조합해가며 리듬의 층(layer)이 증가하는 과정을 경험하는 것이다. 이를 통해 사용자는 장단을 변형되고 확장되는 리듬 시스템으로 인식하게 된다." data-designer="박수민"></p>
@@ -374,20 +323,6 @@
             </div>
             <div class="episode-image">
                 <a href="https://www.youtube.com/watch?v=Ybz3GaVi_y4" target="_blank" rel="noopener noreferrer" class="episode-image-link"><img src="asset/Color%20piano/img.jpeg" alt="Color Piano" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px; cursor: pointer;"><div class="image-link-arrow">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div></a>
-            </div>
-        </div>
-        <div class="episode">
-            <div class="episode-content">
-                <h2 class="episode-title">CRANK-IN</h2>
-                <p class="episode-description" data-full-text="크랭크 필름 카메라/Flim Simulation Camera\n20세기의 상징적인 시네마카메라 Debrie Parvo의 기계적 언어를 재해석한 인터랙티브 오브제를 통해, 관객은 직접 크랭크를 감으며 정지된 사진이 영화가 되는 순간을 체험한다." data-designer="강동준"></p>
-                <button class="read-more-link" onclick="toggleDescription(this)" style="display: none;">Read more<span>↓</span></button>
-            </div>
-            <div class="episode-image">
-                <a href="https://www.youtube.com/watch?v=9dj1bNtsDqs" target="_blank" rel="noopener noreferrer" class="episode-image-link"><img src="asset/Crankin/img.jpg" alt="CRANK-IN" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px; cursor: pointer;"><div class="image-link-arrow">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -484,8 +419,26 @@
             </div></a>
             </div>
         </div>
+        <div class="episode">
+            <div class="episode-content">
+                <h2 class="episode-title">CRANK-IN</h2>
+                <p class="episode-description" data-full-text="크랭크 필름 카메라/Flim Simulation Camera\n20세기의 상징적인 시네마카메라 Debrie Parvo의 기계적 언어를 재해석한 인터랙티브 오브제를 통해, 관객은 직접 크랭크를 감으며 정지된 사진이 영화가 되는 순간을 체험한다." data-designer="강동준"></p>
+                <button class="read-more-link" onclick="toggleDescription(this)" style="display: none;">Read more<span>↓</span></button>
+            </div>
+            <div class="episode-image">
+                <a href="https://www.youtube.com/watch?v=9dj1bNtsDqs" target="_blank" rel="noopener noreferrer" class="episode-image-link"><img src="asset/crankin/img.jpg" alt="CRANK-IN" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px; cursor: pointer;"><div class="image-link-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div></a>
+            </div>
+        </div>
 
     </div>
+
+    <footer class="footer">
+        © 2025 Narim Lee<br>
+        Built with Claude Sonnet 4.5 and Cursor
     </footer>
 
     <script>
@@ -493,40 +446,8 @@
             // button의 부모 요소에서 description 찾기
             const episodeContent = button.closest('.episode-content');
             const description = episodeContent.querySelector('.episode-description');
-            // JSON.stringify로 저장된 값을 JSON.parse로 복원
-            const fullTextAttr = description.getAttribute('data-full-text');
-            const designerAttr = description.getAttribute('data-designer');
-            let fullText = '';
-            let designer = '';
-            
-            // JSON.stringify로 저장된 경우와 일반 문자열인 경우 모두 처리
-            if (fullTextAttr) {
-                try {
-                    // JSON 형식인지 확인 (따옴표로 시작하는지)
-                    if (fullTextAttr.startsWith('"') && fullTextAttr.endsWith('"')) {
-                        fullText = JSON.parse(fullTextAttr);
-                    } else {
-                        // 일반 문자열인 경우 \n을 실제 줄바꿈으로 변환
-                        fullText = fullTextAttr.replace(/\\n/g, '\n');
-                    }
-                } catch (e) {
-                    // 파싱 실패 시 일반 문자열로 처리
-                    fullText = fullTextAttr.replace(/\\n/g, '\n');
-                }
-            }
-            
-            if (designerAttr) {
-                try {
-                    if (designerAttr.startsWith('"') && designerAttr.endsWith('"')) {
-                        designer = JSON.parse(designerAttr);
-                    } else {
-                        designer = designerAttr;
-                    }
-                } catch (e) {
-                    designer = designerAttr;
-                }
-            }
-            
+            const fullText = description.getAttribute('data-full-text');
+            const designer = description.getAttribute('data-designer');
             const isExpanded = description.classList.contains('expanded');
             
             if (isExpanded) {
@@ -659,37 +580,8 @@
             descriptions.forEach(description => {
                 const episodeContent = description.closest('.episode-content');
                 const button = episodeContent.querySelector('.read-more-link');
-                const fullTextAttr = description.getAttribute('data-full-text');
-                const designerAttr = description.getAttribute('data-designer');
-                
-                let fullText = '';
-                let designer = '';
-                
-                if (fullTextAttr) {
-                    try {
-                        if (fullTextAttr.startsWith('"') && fullTextAttr.endsWith('"')) {
-                            fullText = JSON.parse(fullTextAttr);
-                        } else {
-                            fullText = fullTextAttr.replace(/\\n/g, '\n');
-                        }
-                    } catch (e) {
-                        fullText = fullTextAttr.replace(/\\n/g, '\n');
-                    }
-                } else {
-                    fullText = description.textContent.trim();
-                }
-                
-                if (designerAttr) {
-                    try {
-                        if (designerAttr.startsWith('"') && designerAttr.endsWith('"')) {
-                            designer = JSON.parse(designerAttr);
-                        } else {
-                            designer = designerAttr;
-                        }
-                    } catch (e) {
-                        designer = designerAttr;
-                    }
-                }
+                const fullText = description.getAttribute('data-full-text') || description.textContent.trim();
+                const designer = description.getAttribute('data-designer');
                 
                 // fullText가 없으면 현재 텍스트를 fullText로 설정
                 if (!description.getAttribute('data-full-text')) {
